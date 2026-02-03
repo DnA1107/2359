@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background-image: url("background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #7b2cbf;
+    text-align: center;
+    overflow: hidden;
+}
+
+.page {
+    display: none;
+    max-width: 90%;
+    padding: 30px;
+    background: rgba(255,255,255,0.65);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.page.active {
+    display: block;
+}
+
+.page.correct {
+    animation: success 0.6s ease;
+}
+
+@keyframes success {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); background-color: rgba(255,255,255,0.85); }
+    100% { transform: scale(1); }
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 14px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background-color: #9d4edd;
+    color: white;
+}
+
+.secondary {
+    background-color: #e0aaff;
+    color: #4a148c;
+}
+
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #9d4edd;
+    animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- START -->
+<div id="start" class="page active">
+    <h1>
+        💖 Du wartest wohl auf eine bestimmte Frage?<br>
+        Doch bevor dir diese Frage gestellt wird, musst du noch ein paar Fragen beantworten ;)
+    </h1>
+    <button onclick="showPage('q1')">Zum Rätsel</button>
+</div>
+
+<!-- FAIL -->
+<div id="fail" class="page">
+    <h1>❌ Das war leider nicht die richtige Antwort mein Schatz :(</h1>
+    <button onclick="resetQuiz()">Probiere es nochmal</button>
+</div>
+
+<!-- Q1 -->
+<div id="q1" class="page">
+    <h1>🚉 Welche Gleise nenne ich in meiner letzten WhatsApp Nachricht, bevor wir zusammengekommen sind?</h1>
+    <button onclick="correct('q2')">Gleis 6 & 7</button>
+    <button onclick="wrong()">Gleis 1 & 2</button>
+    <button onclick="wrong()">Gleis 11 & 12</button>
+    <button onclick="wrong()">Gleis 3 & 4</button>
+</div>
+
+<!-- Q2 -->
+<div id="q2" class="page">
+    <h1>🌸 Wie hießen die Blumen, welche ich dir zum Bestehen der UdK-Prüfung geschickt habe?</h1>
+    <button onclick="wrong()">Anna</button>
+    <button onclick="wrong()">Lotti</button>
+    <button onclick="correct('q3')">Mia</button>
+    <button onclick="wrong()">Lena</button>
+</div>
+
+<!-- Q3 -->
+<div id="q3" class="page">
+    <h1>💅 Welche Nagellackfarbe hast du an unserem ersten Date getragen?</h1>
+    <button onclick="wrong()">Weiße Frenchies</button>
+    <button onclick="correct('q4')">Pink</button>
+    <button onclick="wrong()">Rot</button>
+    <button onclick="wrong()">Lila</button>
+</div>
+
+<!-- Q4 -->
+<div id="q4" class="page">
+    <h1>🎵 Wie beginnt Denniboos Lieblingslied?</h1>
+    <button onclick="correct('q5')">This is not the end, this is not the beginning</button>
+    <button onclick="wrong()">It starts with one think, I don't know why, it doesn't even matter how hard I try</button>
+    <button onclick="wrong()">Waiting for the end to come, wishing I had strength to stand</button>
+    <button onclick="wrong()">Only consistency in your periphery is fear and the bridge of your nose</button>
+</div>
+
+<!-- Q5 -->
+<div id="q5" class="page">
+    <h1>⛳ Welchen Score hatte ich gegen dich beim Minigolf (Ich habe dich gewinnen lassen)</h1>
+    <button onclick="wrong()">5850</button>
+    <button onclick="correct('q6')">5750</button>
+    <button onclick="wrong()">6767</button>
+    <button onclick="wrong()">4900</button>
+</div>
+
+<!-- Q6 -->
+<div id="q6" class="page">
+    <h1>⏰ Zu guter letzt - Was würde Aldana antworten, wenn du sie jetzt nach der Uhrzeit fragst? (Frag sie doch mal ;) )</h1>
+    <button onclick="wrong()">01:07 Uhr</button>
+    <button onclick="wrong()">*Die tatsächliche Uhrzeit*</button>
+    <button onclick="wrong()">18:01 Uhr</button>
+    <button onclick="correct('valentine')">11:07 Uhr</button>
+</div>
+
+<!-- VALENTINE QUESTION -->
+<div id="valentine" class="page">
+    <h1>💖 Du hast es geschafft! Nun hier die Frage:<br><br>Liebste Leezen, möchtest du mein Valentine sein?</h1>
+    <button onclick="correct('yes')">Ja</button>
+    <button class="secondary" onclick="wrongFinal()">Nein</button>
+</div>
+
+<!-- YES -->
+<div id="yes" class="page">
+    <h1>💖 Yippie! Ich liebe dich über alles! Du bist mein Lieblingsmensch auf der ganzen weiten Welt! 💖</h1>
+</div>
+
+<!-- NO -->
+<div id="no" class="page">
+    <h1>😢 Falsche Antwort, du machst Denniboo sehr traurig</h1>
+</div>
+
+<script>
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('active', 'correct');
+    });
+    document.getElementById(id).classList.add('active');
+}
+
+function wrong() {
+    showPage('fail');
+}
+
+function correct(next) {
+    const current = document.querySelector('.page.active');
+    current.classList.add('correct');
+
+    setTimeout(() => {
+        showPage(next);
+        if (next === 'yes') startConfetti();
+    }, 600);
+}
+
+function wrongFinal() {
+    showPage('no');
+    setTimeout(() => resetQuiz(), 2000);
+}
+
+function resetQuiz() {
+    showPage('start');
+}
+
+function startConfetti() {
+    for (let i = 0; i < 80; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.animationDelay = Math.random() * 3 + 's';
+        c.style.backgroundColor = Math.random() > 0.5 ? '#9d4edd' : '#e0aaff';
+        document.body.appendChild(c);
+    }
+}
+</script>
+
+</body>
+</html>
